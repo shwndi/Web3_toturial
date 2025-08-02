@@ -8,7 +8,7 @@ module.exports = {
     sepolia:{
       //url: Alchemy(alchemy.com) Infura, QulickNode
       url: "https://eth-sepolia.g.alchemy.com/v2/6bcT10xWViZ-FuWmQe5Sf",
-      accounts:["c1096fd93c110a22efb5d401baaec65c92e36ac462d37e300b0d0a8bb2aabdcc"]
+      accounts:["c1096fd93c110a22efb5d401baaec65c92e36ac462d37eqrsdfasfasdfas"]
     }
   }
 };
