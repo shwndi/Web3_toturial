@@ -1,5 +1,9 @@
 require("@nomicfoundation/hardhat-toolbox");
-
+//install dotenv
+// require("dotenv").config()
+require("@chainlink/env-enc").config()
+const SEPOLIA_URL = process.env.SEPOLIA_URL
+const PRIVATE_KEY = process.env.PRIVATE_KEY
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   //defaultNetwork: "hardhat",//默认harthad网络
@@ -7,8 +11,13 @@ module.exports = {
   networks: {
     sepolia:{
       //url: Alchemy(alchemy.com) Infura, QulickNode
-      url: "https://eth-sepolia.g.alchemy.com/v2/6bcT10xWViZ-FuWmQe5Sf",
-      accounts:["c1096fd93c110a22efb5d401baaec65c92e36ac462d37e300b0d0a8bb2aabdcc"]
+      url: SEPOLIA_URL,
+      accounts: [PRIVATE_KEY]
     }
-  }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: "842WN84IU1ZJ8CNSC16IEI1P23SF7CDBAV"
+  },
 };
