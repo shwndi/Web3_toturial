@@ -2,8 +2,10 @@ require("@nomicfoundation/hardhat-toolbox");
 //install dotenv
 // require("dotenv").config()
 require("@chainlink/env-enc").config()
-require("./tasks/deploy-fundMe")
-require("./task/interact-fundMe")
+// require("./tasks/deploy-fundMe")
+// require("./tasks/interact-fundMe")
+require("./tasks")
+
 const SEPOLIA_URL = process.env.SEPOLIA_URL
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2

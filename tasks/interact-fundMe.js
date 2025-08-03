@@ -1,10 +1,9 @@
-const { ethers } = require("hardhat");
-const {task} = require("hart/config")
+const { task } = require("hardhat/config")
 
-task("interact-fundMe")
+task("interact-fundMe","interact with the fundMe contract")
 .addParam("addr","fundMe contract address")
 .setAction(async(taskArgs,her)=>{
-   const fundMeFactory =  await ethers.getContractFactory()
+   const fundMeFactory =  await ethers.getContractFactory("FundMe")
    const fundMe =  fundMeFactory.attach(taskArgs.addr)
 // step 1: init 2 accounts
   const [firstAccount, secondAccount] = await ethers.getSigners();
