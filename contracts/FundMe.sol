@@ -33,7 +33,7 @@ contract FundMe{
 
     uint256 constant TARGET = 1000 * 10 ** 18;
 
-    address owner;
+    address public owner;
 
     uint256 deploymentTimestamp;
 
