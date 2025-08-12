@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.28;
+pragma solidity 0.8.24;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
-
+import "hardhat/console.sol";
 //发布出现问题看这里！！！
 
 // 这里使用Remix在线编写，同时使用了DOC 因此要部署到测试网络上，环境选择Injected Provider - MetaMask
@@ -42,9 +42,13 @@ contract FundMe{
     address erc20Addr;
 
     bool public getFundSuccess = false;
+
+    event FundMeWithdrawByOwner(uint256);
+    event RefundByFunder(address, uint256);
     
-    constructor(uint256 _lockTime) {
-        fundFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);    
+    constructor(uint256 _lockTime,address dataFeedAddr) {
+        // fundFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        fundFeed = AggregatorV3Interface(dataFeedAddr);
         owner = msg.sender;
         deploymentTimestamp = block.timestamp;
         lockTime = _lockTime;
@@ -66,6 +70,7 @@ contract FundMe{
 
     function fund() external payable {
         //断言语句，如果为false 执行“，”后里的内容
+        console.log("execute fund function");
         require(converEthToUsd(msg.value) >= MAX_VALUE,"send more ETH");
         require(block.timestamp < deploymentTimestamp + lockTime,"window not closed");
         funderToAmount[msg.sender] = msg.value;
@@ -108,19 +113,23 @@ contract FundMe{
         //payable(msg.sender).transfer(address(this).balance);
         //bool success = payable(msg.sender).send(address(this).balance);
         bool success;
-        (success,) = payable(msg.sender).call{value: address(this).balance}("");
+        uint256 balance = address(this).balance;
+        (success, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(success,"tx is failed");  
         funderToAmount[msg.sender] = 0;
         getFundSuccess = true;
+        emit FundMeWithdrawByOwner(balance);
     }
 
      function refund() external windowClosed {
         require(converEthToUsd(address(this).balance) < TARGET,"target is reached");   
         require(funderToAmount[msg.sender] != 0,"there is no fund for you");
         bool success;
-        (success,) = payable(msg.sender).call{value: funderToAmount[msg.sender]}("");
+        uint256 balance = funderToAmount[msg.sender];
+        (success,) = payable(msg.sender).call{value: balance}("");
         require(success,"tx is failed");
         funderToAmount[msg.sender] = 0;
+        emit RefundByFunder(msg.sender,balance);
     }
     // _;  ： 放在 require 下面表示先执行 require ，再执行修饰函数部分，放在上面顺序反过来
     modifier windowClosed{
@@ -128,7 +137,7 @@ contract FundMe{
         _;
     }
     modifier onlyOwner{
-       require(msg.sender == owner ,"this functon can only be called by owner");
+       require(msg.sender == owner ,"this function can only be called by owner");
        _; 
     }
 
