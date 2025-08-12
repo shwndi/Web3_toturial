@@ -23,6 +23,9 @@ module.exports = {
   //defaultNetwork: "hardhat",//默认harthad网络
   solidity: "0.8.24",
   defaultNetwork: "hardhat", //默认hardhat网络
+  mocha:{
+    timeout:300000
+  },
   networks: {
     sepolia:{
       //url: Alchemy(alchemy.com) Infura, QulickNode
@@ -54,5 +57,8 @@ module.exports = {
       default: 1, //这里的1是指第二个账户
     },
   },
+  gasReporter:{
+    enabled: false
+  }
 
 };

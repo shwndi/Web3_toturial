@@ -1,7 +1,7 @@
 const { ethers, deployments } = require("hardhat")
 const { assert, expect } = require("chai")
 const helpers = require("@nomicfoundation/hardhat-network-helpers")
-
+const {development} = require("../../helper-hardhat-config.js")
 
 //you can only test where network is normal
 
@@ -30,6 +30,7 @@ const helpers = require("@nomicfoundation/hardhat-network-helpers")
 //     await fundMe.waitForDeployment();
 //     assert.equal((await fundMe.fundFeed()), "0x694AA1769357215DE4FAC081bf1f309aDC325306")
 // })
+!development.includes(network.name)?describe.skip:
 describe("test fundMe contract", async function () {
     let fundMe
     let fundMeSecondAccount

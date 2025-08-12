@@ -1,5 +1,5 @@
 const { network } = require("hardhat");
-const { development, DECIMAL, INITIAL_ANSWER } = require("../helper-hardhad-config");
+const { development, DECIMAL, INITIAL_ANSWER } = require("../helper-hardhat-config");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     if (development.includes(network.name)) {

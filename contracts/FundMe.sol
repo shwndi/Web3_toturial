@@ -70,7 +70,6 @@ contract FundMe{
 
     function fund() external payable {
         //断言语句，如果为false 执行“，”后里的内容
-        console.log("execute fund function");
         require(converEthToUsd(msg.value) >= MAX_VALUE,"send more ETH");
         require(block.timestamp < deploymentTimestamp + lockTime,"window not closed");
         funderToAmount[msg.sender] = msg.value;
@@ -93,7 +92,7 @@ contract FundMe{
 
     function converEthToUsd(uint256 amount) private view returns (uint256){
         uint256 ethPrice = uint256(getChainlinkDataFeedLatestAnswer());
-        return amount*ethPrice/10**8;
+        return amount*ethPrice/(10**8);
     }
 
     function transferOwnerShip(address newOwner) external onlyOwner{

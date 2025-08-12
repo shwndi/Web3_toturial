@@ -20,14 +20,14 @@
 // }
 //version:4  symple add some information from hre
 const { network } = require("hardhat")
-const { LOCK_TIME, development, networkConfig ,CONFIRMATIONS} = require("../helper-hardhad-config")
+const { LOCK_TIME, development, networkConfig, CONFIRMATIONS } = require("../helper-hardhat-config.js");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const firstAccount = (await getNamedAccounts()).firstAccount
     console.log("FundMe deployed by:", firstAccount)
     const { deploy } = deployments
     let dataFeedAddr
-    let confermations 
+    let confermations
     if (development.includes(network.name)) {
         dataFeedAddr = (await deployments.get("MockV3Aggregator")).address
         confermations = 0 //本地测试网络不需要确认数
